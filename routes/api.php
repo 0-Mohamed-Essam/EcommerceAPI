@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,11 @@ Route::get('/products/search/{name}', [ProductController::class, 'search']);
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
   Route::post('/logout', [AuthController::class, 'logout']);
+  Route::get('/profile', [ProfileController::class, 'index']);
+});
+
+// Admin Routes
+Route::group(['middleware' => ['auth:sanctum', 'admin']], function () {
   Route::post('/products', [ProductController::class, 'store']);
   Route::put('/products/{id}', [ProductController::class, 'update']);
   Route::delete('/products/{id}', [ProductController::class, 'destroy']);

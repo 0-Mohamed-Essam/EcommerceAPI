@@ -74,7 +74,14 @@ class ProductController extends Controller
    */
   public function destroy(Request $request, $id)
   {
-    return Product::destroy($id);
+    if (Product::destroy($id)) {
+      return response(['message' => 'Product deleted successfully']);
+    } else {
+      return response([
+        'error' => true,
+        'message' => 'No product with this id'
+      ]);
+    }
   }
 
   /**
